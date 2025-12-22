@@ -1,0 +1,10 @@
+{
+    "godotTools.editorPath.godot4": "d:\\Program Files\\Godot\\Godot_v4.5-stable_win64.exe",
+    "files.exclude": {
+        "**/*.uid": true,
+        "**/*.tmp": true
+    },
+    "files.associations": {
+        "*.glsl.inc": "glsl"
+  }
+}

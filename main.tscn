@@ -1,0 +1,339 @@
+[gd_scene load_steps=11 format=3 uid="uid://bk2q8t4o3xqii"]
+
+[ext_resource type="Script" uid="uid://bgqjq0lommspk" path="res://scripts/user_handler.gd" id="1_0xm2m"]
+[ext_resource type="Script" uid="uid://cmq1yu0y2dmdl" path="res://scripts/voxel_grid.gd" id="2_lquwl"]
+[ext_resource type="Script" uid="uid://c6js510m7pogk" path="res://scripts/palette_handler.gd" id="3_7mycd"]
+[ext_resource type="Script" uid="uid://im0qxox2i1mf" path="res://scripts/compute_handler.gd" id="4_272bh"]
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_1bvp3"]
+bg_color = Color(0.1, 0.1, 0.1, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_lquwl"]
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_7mycd"]
+bg_color = Color(0.1, 0.1, 0.1, 1)
+corner_radius_top_left = 3
+corner_radius_top_right = 3
+corner_radius_bottom_right = 3
+corner_radius_bottom_left = 3
+
+[sub_resource type="ProceduralSkyMaterial" id="ProceduralSkyMaterial_ig7tw"]
+sky_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+ground_horizon_color = Color(0.66224277, 0.6717428, 0.6867428, 1)
+
+[sub_resource type="Sky" id="Sky_0xm2m"]
+sky_material = SubResource("ProceduralSkyMaterial_ig7tw")
+
+[sub_resource type="Environment" id="Environment_h2yge"]
+background_mode = 2
+sky = SubResource("Sky_0xm2m")
+tonemap_mode = 2
+glow_enabled = true
+
+[node name="Node3D" type="Node"]
+
+[node name="UserHandler" type="Node" parent="." node_paths=PackedStringArray("_sub_viewport", "_voxel_grid", "_camera", "_file_name_label", "_resolution_x_line_edit", "_resolution_y_line_edit", "_resolution_z_line_edit", "_tool_add_button", "_tool_delete_button", "_tool_paint_button", "_selection_type_box_button", "_selection_type_face_button", "_selection_type_brush_button", "_brush_radius_line_edit", "_save_button", "_save_as_button", "_load_button")]
+script = ExtResource("1_0xm2m")
+_sub_viewport = NodePath("../Control/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport")
+_voxel_grid = NodePath("../VoxelGrid")
+_camera = NodePath("../Control/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Camera3D")
+_orbit_sensitivity = 0.5
+_pan_sensitivity = 2.0
+_file_name_label = NodePath("../Control/VBoxContainer/UpperPanel/HBoxContainer/FileNameLabel")
+_resolution_x_line_edit = NodePath("../Control/VBoxContainer/UpperPanel/HBoxContainer/HBoxContainer/SizeX/LineEdit")
+_resolution_y_line_edit = NodePath("../Control/VBoxContainer/UpperPanel/HBoxContainer/HBoxContainer/SizeY/LineEdit")
+_resolution_z_line_edit = NodePath("../Control/VBoxContainer/UpperPanel/HBoxContainer/HBoxContainer/SizeZ/LineEdit")
+_tool_add_button = NodePath("../Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer/ToolButtonContainer/ToolAddButton")
+_tool_delete_button = NodePath("../Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer/ToolButtonContainer/ToolDeleteButton")
+_tool_paint_button = NodePath("../Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer/ToolButtonContainer/ToolPaintButton")
+_selection_type_box_button = NodePath("../Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer/ToolButtonContainer/SelectionTypeBoxButton")
+_selection_type_face_button = NodePath("../Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer/ToolButtonContainer/SelectionTypeFaceButton")
+_selection_type_brush_button = NodePath("../Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer/ToolButtonContainer/SelectionTypeBrushButton")
+_brush_radius_line_edit = NodePath("../Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer/BrushSizeContainer/LineEdit")
+_save_button = NodePath("../Control/VBoxContainer/UpperPanel/HBoxContainer/SaveButton")
+_save_as_button = NodePath("../Control/VBoxContainer/UpperPanel/HBoxContainer/SaveAsButton")
+_load_button = NodePath("../Control/VBoxContainer/UpperPanel/HBoxContainer/LoadButton")
+
+[node name="VoxelGrid" type="Node" parent="." node_paths=PackedStringArray("palette_handler", "compute_handler", "camera")]
+script = ExtResource("2_lquwl")
+palette_handler = NodePath("../PaletteHandler")
+compute_handler = NodePath("../ComputeHandler")
+camera = NodePath("../Control/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Camera3D")
+
+[node name="PaletteHandler" type="Node" parent="." node_paths=PackedStringArray("_button_container", "_color_picker")]
+script = ExtResource("3_7mycd")
+_button_container = NodePath("../Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/ButtonContainer")
+_color_picker = NodePath("../Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer/ColorPickerButton")
+button_normal_stylebox = SubResource("StyleBoxFlat_1bvp3")
+button_pressed_stylebox = SubResource("StyleBoxFlat_lquwl")
+button_hover_stylebox = SubResource("StyleBoxFlat_7mycd")
+
+[node name="ComputeHandler" type="Node" parent="." node_paths=PackedStringArray("sub_viewport", "camera")]
+script = ExtResource("4_272bh")
+sub_viewport = NodePath("../Control/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport")
+camera = NodePath("../Control/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport/Camera3D")
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+environment = SubResource("Environment_h2yge")
+
+[node name="DirectionalLight3D" type="DirectionalLight3D" parent="."]
+transform = Transform3D(-0.8660254, -0.43301278, 0.25, 0, 0.49999997, 0.86602545, -0.50000006, 0.75, -0.43301266, 0, 0, 0)
+shadow_enabled = true
+
+[node name="Control" type="Control" parent="."]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+
+[node name="UpperPanel" type="Panel" parent="Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.05
+focus_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer/UpperPanel"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+
+[node name="FileNameLabel" type="Label" parent="Control/VBoxContainer/UpperPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 1
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Control/VBoxContainer/UpperPanel/HBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+
+[node name="SizeX" type="HBoxContainer" parent="Control/VBoxContainer/UpperPanel/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+
+[node name="Label" type="Label" parent="Control/VBoxContainer/UpperPanel/HBoxContainer/HBoxContainer/SizeX"]
+layout_mode = 2
+focus_mode = 1
+text = "x:"
+
+[node name="LineEdit" type="LineEdit" parent="Control/VBoxContainer/UpperPanel/HBoxContainer/HBoxContainer/SizeX"]
+layout_mode = 2
+focus_mode = 1
+
+[node name="SizeY" type="HBoxContainer" parent="Control/VBoxContainer/UpperPanel/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+
+[node name="Label" type="Label" parent="Control/VBoxContainer/UpperPanel/HBoxContainer/HBoxContainer/SizeY"]
+layout_mode = 2
+focus_mode = 1
+text = "y:"
+
+[node name="LineEdit" type="LineEdit" parent="Control/VBoxContainer/UpperPanel/HBoxContainer/HBoxContainer/SizeY"]
+layout_mode = 2
+focus_mode = 1
+
+[node name="SizeZ" type="HBoxContainer" parent="Control/VBoxContainer/UpperPanel/HBoxContainer/HBoxContainer"]
+layout_mode = 2
+focus_mode = 1
+
+[node name="Label" type="Label" parent="Control/VBoxContainer/UpperPanel/HBoxContainer/HBoxContainer/SizeZ"]
+layout_mode = 2
+focus_mode = 1
+text = "z:"
+
+[node name="LineEdit" type="LineEdit" parent="Control/VBoxContainer/UpperPanel/HBoxContainer/HBoxContainer/SizeZ"]
+layout_mode = 2
+focus_mode = 1
+
+[node name="SaveButton" type="Button" parent="Control/VBoxContainer/UpperPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+focus_mode = 1
+text = "Save"
+
+[node name="SaveAsButton" type="Button" parent="Control/VBoxContainer/UpperPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+focus_mode = 1
+text = "Save as"
+
+[node name="LoadButton" type="Button" parent="Control/VBoxContainer/UpperPanel/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.1
+focus_mode = 1
+text = "Load"
+
+[node name="HBoxContainer" type="HSplitContainer" parent="Control/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 1
+
+[node name="SidePanelContainer" type="PanelContainer" parent="Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_stretch_ratio = 0.2
+focus_mode = 1
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/VBoxContainer/HBoxContainer/SidePanelContainer"]
+layout_mode = 2
+focus_mode = 1
+
+[node name="ButtonContainer" type="GridContainer" parent="Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 1
+columns = 8
+
+[node name="MarginContainer" type="MarginContainer" parent="Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 10
+size_flags_stretch_ratio = 0.0
+theme_override_constants/margin_left = 3
+theme_override_constants/margin_right = 3
+theme_override_constants/margin_bottom = 3
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="ColorPickerButton" type="ColorPickerButton" parent="Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+custom_minimum_size = Vector2(0, 50)
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 1
+
+[node name="ToolButtonContainer" type="GridContainer" parent="Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.0
+focus_mode = 1
+columns = 3
+
+[node name="ToolAddButton" type="Button" parent="Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer/ToolButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 20
+text = "Add"
+
+[node name="ToolDeleteButton" type="Button" parent="Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer/ToolButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 20
+text = "Delete"
+
+[node name="ToolPaintButton" type="Button" parent="Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer/ToolButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 20
+text = "Paint"
+
+[node name="SelectionTypeBoxButton" type="Button" parent="Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer/ToolButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 20
+text = "Box"
+
+[node name="SelectionTypeFaceButton" type="Button" parent="Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer/ToolButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 20
+text = "Face"
+
+[node name="SelectionTypeBrushButton" type="Button" parent="Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer/ToolButtonContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 1
+theme_override_font_sizes/font_size = 20
+text = "Brush"
+
+[node name="BrushSizeContainer" type="HBoxContainer" parent="Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 2
+size_flags_stretch_ratio = 0.0
+
+[node name="Label" type="Label" parent="Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer/BrushSizeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "Brush size"
+
+[node name="LineEdit" type="LineEdit" parent="Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer/BrushSizeContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = "1"
+
+[node name="VBoxContainer" type="VBoxContainer" parent="Control/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+focus_mode = 1
+
+[node name="SubViewportContainer" type="SubViewportContainer" parent="Control/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+focus_mode = 2
+stretch = true
+
+[node name="SubViewport" type="SubViewport" parent="Control/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer"]
+handle_input_locally = false
+size = Vector2i(943, 554)
+render_target_update_mode = 4
+
+[node name="TextureRect" type="TextureRect" parent="Control/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport"]
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+focus_mode = 1
+
+[node name="Camera3D" type="Camera3D" parent="Control/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport"]
+transform = Transform3D(0.7071068, -0.41562694, 0.5720614, 0, 0.80901706, 0.58778524, -0.7071068, -0.41562694, 0.5720614, 0, 0, 0)
+current = true
+fov = 69.4
+size = 2.655
+
+[node name="BottomPanel" type="Panel" parent="Control/VBoxContainer/HBoxContainer/VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+size_flags_stretch_ratio = 0.1
+focus_mode = 1
+
+[node name="InfoLabel" type="Label" parent="Control/VBoxContainer/HBoxContainer/VBoxContainer/BottomPanel"]
+layout_mode = 0
+offset_right = 40.0
+offset_bottom = 23.0
+focus_mode = 1
+
+[connection signal="palette_changed" from="PaletteHandler" to="ComputeHandler" method="_on_color_handler_palette_changed"]
+[connection signal="color_changed" from="Control/VBoxContainer/HBoxContainer/SidePanelContainer/VBoxContainer/MarginContainer/VBoxContainer/ColorPickerButton" to="PaletteHandler" method="_on_color_picker_button_color_changed"]
+[connection signal="size_changed" from="Control/VBoxContainer/HBoxContainer/VBoxContainer/SubViewportContainer/SubViewport" to="ComputeHandler" method="_on_sub_viewport_size_changed"]
